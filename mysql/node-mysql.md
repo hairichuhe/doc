@@ -10,44 +10,44 @@
 ## Table of Contents
 
 - [Install](#install)
-- [Introduction](#introduction)
-- [Contributors](#contributors)
-- [Sponsors](#sponsors)
-- [Community](#community)
-- [Establishing connections](#establishing-connections)
+- [Introduction（介绍）](#introduction)
+- [Contributors（贡献）](#contributors)
+- [Sponsors（赞助商）](#sponsors)
+- [Community（社区）](#community)
+- [Establishing（建立） connections](#establishing-connections)
 - [Connection options](#connection-options)
 - [SSL options](#ssl-options)
-- [Terminating connections](#terminating-connections)
+- [Terminating（结束） connections](#terminating-connections)
 - [Pooling connections](#pooling-connections)
 - [Pool options](#pool-options)
 - [Pool events](#pool-events)
 - [Closing all the connections in a pool](#closing-all-the-connections-in-a-pool)
-- [PoolCluster](#poolcluster)
+- [PoolCluster（cluster 群）](#poolcluster)
 - [PoolCluster options](#poolcluster-options)
 - [Switching users and altering connection state](#switching-users-and-altering-connection-state)
-- [Server disconnects](#server-disconnects)
-- [Performing queries](#performing-queries)
-- [Escaping query values](#escaping-query-values)
-- [Escaping query identifiers](#escaping-query-identifiers)
-- [Preparing Queries](#preparing-queries)
-- [Custom format](#custom-format)
+- [Server disconnects（断开）](#server-disconnects)
+- [Performing（表演） queries（疑问）](#performing-queries)
+- [Escaping（逸出） query values](#escaping-query-values)
+- [Escaping query identifiers（标识符）](#escaping-query-identifiers)
+- [Preparing（准备，预备） Queries](#preparing-queries)
+- [Custom（习惯） format](#custom-format)
 - [Getting the id of an inserted row](#getting-the-id-of-an-inserted-row)
 - [Getting the number of affected rows](#getting-the-number-of-affected-rows)
 - [Getting the number of changed rows](#getting-the-number-of-changed-rows)
 - [Getting the connection ID](#getting-the-connection-id)
-- [Executing queries in parallel](#executing-queries-in-parallel)
+- [Executing（履行，执行） queries in parallel（平行）](#executing-queries-in-parallel)
 - [Streaming query rows](#streaming-query-rows)
 - [Piping results with Streams2](#piping-results-with-streams2)
-- [Multiple statement queries](#multiple-statement-queries)
-- [Stored procedures](#stored-procedures)
-- [Joins with overlapping column names](#joins-with-overlapping-column-names)
-- [Transactions](#transactions)
+- [Multiple（多重，多样） statement（声明） queries](#multiple-statement-queries)
+- [Stored（储存） procedures（程序）](#stored-procedures)
+- [Joins with overlapping（重叠） column names](#joins-with-overlapping-column-names)
+- [Transactions（事物）](#transactions)
 - [Timeouts](#timeouts)
 - [Error handling](#error-handling)
-- [Exception Safety](#exception-safety)
-- [Type casting](#type-casting)
-- [Connection Flags](#connection-flags)
-- [Debugging and reporting problems](#debugging-and-reporting-problems)
+- [Exception（例外） Safety（安全）](#exception-safety)
+- [Type casting（铸造，投，扔掉）](#type-casting)
+- [Connection Flags（信号）](#connection-flags)
+- [Debugging and reporting（报告） problems](#debugging-and-reporting-problems)
 - [Contributing](#contributing)
 - [Running tests](#running-tests)
 - [Todo](#todo)
@@ -58,9 +58,9 @@
 $ npm install mysql
 ```
 
-For information about the previous 0.9.x releases, visit the [v0.9 branch][].
+For information about the previous（先前的，以前的） 0.9.x releases, visit the [v0.9 branch][].
 
-Sometimes I may also ask you to install the latest version from Github to check
+Sometimes I may also ask you to install the latest（最新的） version from Github to check（检查，核实）
 if a bugfix is working. In this case, please do:
 
 ```sh
@@ -72,7 +72,7 @@ $ npm install mysqljs/mysql
 ## Introduction
 
 This is a node.js driver for mysql. It is written in JavaScript, does not
-require compiling, and is 100% MIT licensed.
+require compiling（编译）, and is 100% MIT（一种软件授权许可证） licensed.
 
 Here is an example on how to use it:
 
