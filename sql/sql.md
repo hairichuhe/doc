@@ -100,4 +100,33 @@ SELECT * websites
 
 ## 结果集中的导航
 大多数数据库软件系统都允许使用编程函数在结果集中进行导航，比如：Move-To-First-Record、Get-Record-Content、Move-To-Next-Record 等等。
-()
+(注解：相当于在表中建立一个游标，指定是第几行的数据。)
+参考链接：[jbdc实例](http://www.yiibai.com/jdbc/navigate-result-sets.html)
+[详情参考](http://wiki.jikexueyuan.com/project/jdbc/result-sets.html)
+
+# SQL SELECT DISTINCT 语句
+SELECT DISTINCT 语句用于返回唯一不同的值。
+## SQL SELECT DISTINCT 语句
+在表中，一个列可能会包含多个重复值，有时您也许希望仅仅列出不同（distinct）的值。
+
+DISTINCT 关键词用于返回唯一不同的值。
+
+## SQL SELECT DISTINCT 语法
+```
+SELECT DISTINCT column_name,colunm FROM table_name
+```
+
+## SELECT DISTINCT 实例
+下面的 SQL 语句仅从 "Websites" 表的 "country" 列中选取唯一不同的值，也就是去掉 "country" 列重复值：
+```
+SELECT DISTINCT country FROM websites
+```
+![](img/4.png)
+
+# SQL WHERE 子句
+WHERE 子句用于过滤记录。
+
+## SQL WHERE 语法
+```
+SELECT column_name,column_name FROM table_name FROM column_name operator value
+```
