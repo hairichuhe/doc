@@ -130,3 +130,99 @@ WHERE 子句用于过滤记录。
 ```
 SELECT column_name,column_name FROM table_name FROM column_name operator value
 ```
+
+## 示例演示
+```
+SELECT * FROM websites WHERE country="CN"
+```
+![](img/5.png)
+
+## 文本字段 vs. 数值字段
+sql使用单引号来环绕文本值（大部分的数据库系统也支持双引号）。
+在上个实例中‘CN’文本字段使用了单引号。
+如果是数值，请不要使用引号。
+实例
+```
+SELECT * FROM websites WHERE id=1;
+```
+![](img/6.png)
+
+## WHERE 子句中的运算符
+下面的运算符可以在 WHERE 子句中使用：
+
+- =	等于
+- <>	不等于。注释：在 SQL 的一些版本中，该操作符可被写成 !=
+- >	大于
+- <	小于
+- >=	大于等于
+- <=	小于等于
+- BETWEEN	在某个范围内
+- LIKE	搜索某种模式
+- IN	指定针对某个列的多个可能值
+
+# SQL AND & OR 运算符
+AND & OR 运算符用于基于一个以上的条件对记录进行过滤。
+
+如果第一个条件和第二个条件都成立，则 AND 运算符显示一条记录。
+如果第一个条件和第二个条件中只要有一个成立，则 OR 运算符显示一条记录。
+
+## AND 运算符实例
+下面的 SQL 语句从 "Websites" 表中选取国家为 "CN" 且alexa排名大于 "50" 的所有网站：
+示例
+```
+SELECT * FROM websites WHERE country='CN' AND alexa>50;
+```
+![](img/7.png)
+
+## OR运算实例
+```
+SELECT * FROM websites WHERE country='CN' OR country='USA';
+```
+![](img/8.png)
+
+## 结合 AND & OR
+您也可以把 AND 和 OR 结合起来（使用圆括号来组成复杂的表达式）。
+下面的 SQL 语句从 "Websites" 表中选取 alexa 排名大于 "15" 且国家为 "CN" 或 "USA" 的所有网站：
+```
+SELECT * FROM websites WHERE alexa>15 AND (country='USA' OR country='CN');
+```
+![](img/9.png)
+
+# SQL ORDER BY 关键字
+ORDER BY 关键字用于对结果集进行排序。
+ORDER BY 关键字用于对结果集按照一个列或者多个列进行排序。
+ORDER BY 关键字默认按照升序对记录进行排序。如果需要按照降序对记录进行排序，您可以使用 DESC 关键字。
+
+## SQL ORDER BY 语法
+```
+SELECT column_name,column_name FROM table_name ORDER BY column_name,column_name ASC|DESC;
+```
+
+## ORDER BY 实例
+下面的 SQL 语句从 "Websites" 表中选取所有网站，并按照 "alexa" 列排序：
+示例：
+```
+SELECT * FROM websites ORDER BY alexa ASC;
+```
+
+
+## ORDER BY DESC 实例
+下面的 SQL 语句从 "Websites" 表中选取所有网站，并按照 "alexa" 列降序排序：
+```
+SELECT * FROM websites ORDER BY alexa DESC;
+```
+![](img/11.png)
+
+## ORDER BY 多列
+下面的 SQL 语句从 "Websites" 表中选取所有网站，并按照 "country" 和 "alexa" 列排序：
+```
+```
+（理解：先是根据国家排序，排完然后在国家中再根据排名排序）
+![](img/12.png)
+
+# SQL INSERT INTO 语句
+INSERT INTO 语句用于向表中插入新记录。
+
+## SQL INSERT INTO 语法
+INSERT INTO 语句可以有两种编写形式。
+第一种形式无需指定要插入数据的列名，只需提供被插入的值即可：
