@@ -226,3 +226,85 @@ INSERT INTO 语句用于向表中插入新记录。
 ## SQL INSERT INTO 语法
 INSERT INTO 语句可以有两种编写形式。
 第一种形式无需指定要插入数据的列名，只需提供被插入的值即可：
+```
+INSERT INTO table-name VALUES (value1,value2.…);
+```
+第二种形式需要指定列名及被插入的值：
+```
+INSERT INTO table_name (column1,column2,…) VALUES (value1,value2,value3,…);
+```
+
+## 插入实例
+```
+INSERT INTO websites (name,url,alexa,country) VALUES ('百度','http://www.baidu.com','4','CN');
+```
+![](img/13.png)
+** 注意当不指定列明的时候，插入的数据项的长度必须与列的长度相等！
+
+## 在指定的列插入数据
+我们也可以在指定的列插入数据。
+下面的 SQL 语句将插入一个新行，但是只在 "name"、"url" 和 "country" 列插入数据（id 字段会自动更新）：
+```
+INSERT INTO websites (name,url,country) VALUES ('晓军博客','http://www.wangxiaojun.top','CN');
+```
+![](img/14.png)
+
+# SQL UPDATE 语句
+UPDATE 语句用于更新表中已存在的记录。
+
+## sql update 语法
+
+```
+UPDATE table_name SET column1=value1,column2=value2,… WHERE some_column=somoe_value;
+```
+** 注意：请注意 SQL UPDATE 语句中的 WHERE 子句！
+WHERE 子句规定哪条记录或者哪些记录需要更新。如果您省略了 WHERE 子句，所有的记录都将被更新！
+
+## 实例
+假设我们要把 "晓军博客" 的 alexa 排名更新为 5000，country 改为 USA。
+我们使用下面的 SQL 语句：
+```
+UPDATE websites SET alexa='5000', country='USA' WHERE name='晓军博客';
+```
+![](img/15.png)
+
+**　注意：在更新记录时要格外小心！在上面的实例中，如果我们省略了 WHERE 子句，如下所示：
+```
+UPDATE Websites
+SET alexa='5000', country='USA'
+```
+执行以上代码会将 Websites 表中所有数据的 alexa 改为 5000，country 改为 USA。
+执行没有 WHERE 子句的 UPDATE 要慎重，再慎重。
+
+# SQL DELETE 语句
+DELETE 语句用于删除表中的记录。
+
+## SQL DELETE 语法
+```
+DELETE FROM table_name WHERE some_column=some_value;
+```
+**　注意：请注意 SQL DELETE 语句中的 WHERE 子句！
+WHERE 子句规定哪条记录或者哪些记录需要删除。如果您省略了 WHERE 子句，所有的记录都将被删除！
+
+## 实例
+假设我们要从 "Websites" 表中删除网站名为 "百度" 且国家为 CN 的网站 。
+我们使用下面的 SQL 语句：
+
+```
+DELETE FROM websites WHERE name='百度' AND country='CN';
+```
+![](img/16.png)
+
+## 删除所有数据
+您可以在不删除表的情况下，删除表中所有的行。这意味着表结构、属性、索引将保持不变：
+```
+DELETE FROM table_name；或者
+DELETE * FROM table_name;
+```
+** 注意：在删除记录时要格外小心，因为您不能重来！
+
+# SQL SELECT TOP, LIMIT, ROWNUM 子句
+## SQL SELECT TOP 子句
+SELECT TOP 子句用于规定要返回的记录的数目。
+SELECT TOP 子句对于拥有数千条记录的大型表来说，是非常有用的。
+** 注意：并非所有的数据库系统都支持 SELECT TOP 子句。
