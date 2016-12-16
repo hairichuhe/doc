@@ -21,6 +21,10 @@
 虽然 SQL 是一门 ANSI（American National Standards Institute 美国国家标准化组织）标准的计算机语言，但是仍然存在着多种不同版本的 SQL 语言。
 
 然而，为了与 ANSI 标准相兼容，它们必须以相似的方式共同地来支持一些主要的命令（比如 SELECT、UPDATE、DELETE、INSERT、WHERE 等等）。
+
+## 本教程使用的sql文件
+[websites](file/websites.sql)
+[access_log](access_log/websites.sql)
 ## 在您的网站中使用 SQL
 1.数据库
 2.SQL（入库）
@@ -308,3 +312,198 @@ DELETE * FROM table_name;
 SELECT TOP 子句用于规定要返回的记录的数目。
 SELECT TOP 子句对于拥有数千条记录的大型表来说，是非常有用的。
 ** 注意：并非所有的数据库系统都支持 SELECT TOP 子句。
+
+## 实例(mysql)
+```
+SELECT * FROM websites LIMIT 2;
+```
+
+![](img/17.png)
+|| 理解：这个语法，就是是返回规定已经数目的集合，有三种是因为不同的数据库所用的语法不一样！
+
+# SQL LIKE 操作符
+LIKE 操作符用于在 WHERE 子句中搜索列中的指定模式。
+
+## SQL like 语法
+```
+SELECT column_name FROM table_name WHERE column_name LIKE pattern;
+```
+
+## SQL LIKE 操作符实例
+下面的 SQL 语句选取 name 以字母 "G" 开始的所有客户：
+```
+SELECT * FROM websites WHERE name LIKE 'G%';
+```
+![](img/18.png)
+
+|| 提示："%" 符号用于在模式的前后定义通配符（缺省字母）。您将在下一章中学习更多有关通配符的知识。
+
+下面的 SQL 语句选取 name 以字母 "k" 结尾的所有客户：
+```
+SELECT * FROM websites WHERE name LIKE '%k';
+```
+![](img/19.png)
+
+下面的 SQL 语句选取 name 包含模式 "oo" 的所有客户：
+```
+SELECT * FROM websites WHERE name LIKE '%oo%';
+```
+![](img/20.png)
+
+通过使用 NOT 关键字，您可以选取不匹配模式的记录。
+
+下面的 SQL 语句选取 name 不包含模式 "oo" 的所有客户：
+```
+SELECT * FROM websites WHERE name NOT LIKE '%oo%';
+```
+![](img/21.png)
+
+# SQL 通配符
+通配符可用于替代字符串中的任何其他字符。
+在 SQL 中，通配符与 SQL LIKE 操作符一起使用。
+
+SQL 通配符用于搜索表中的数据。
+
+在 SQL 中，可使用以下通配符：
+- 
+- % 	替代 0 个或多个字符
+- _ 	替代一个字符
+- [charlist] 	字符列中的任何单一字符
+- [^charlist]或[!charlist] 	不在字符列中的任何单一字符
+
+##　使用 SQL % 通配符
+下面的 SQL 语句选取 url 以字母 "https" 开始的所有网站：
+实例：
+```
+SELECT * FROM websites WHERE url LIKE 'https%';
+```
+![](img/22.png)
+
+## 使用 SQL _ 通配符
+下面的 SQL 语句选取 name 以一个任意字符开始，然后是 "oogle" 的所有客户：
+```
+SELECT * FROM websites WHERE name LIKE '_oogle';
+```
+![](img/23.png)
+下面的 SQL 语句选取 name 以 "G" 开始，然后是一个任意字符，然后是 "o"，然后是一个任意字符，然后是 "le" 的所有网站：
+```
+SELECT * FROM websites WHERE name LIKE 'G_o_le';
+```
+![](img/24.png)
+
+## 使用 SQL [charlist] 通配符
+MySQL 中使用 REGEXP 或 NOT REGEXP 运算符 (或 RLIKE 和 NOT RLIKE) 来操作正则表达式。
+
+下面的 SQL 语句选取 name 以 "G"、"F" 或 "s" 开始的所有网站：
+```
+SELECT * FROM websites WHERE name REGEXP '^[GFs]';
+```
+![](img/25.png)
+
+下面的 SQL 语句选取 name 以 A 到 H 字母开头的网站：
+```
+SELECT * FROM websites WHERE name REGEXP '^[A-H]';
+```
+![](img/26.png)
+
+下面的 SQL 语句选取 name 不以 A 到 H 字母开头的网站：
+```
+SELECT * FROM websites WHERE name REGEXP '^[^A-H]'
+```
+![](img/27.png)
+
+# IN 操作符
+IN 操作符允许您在 WHERE 子句中规定多个值。
+
+sql in 语法
+```
+SELECT column_name FROM teble_name WHERE column_name IN （value1，value2,…);
+```
+
+## 实例
+```
+SELECT * FROM websites WHERE name IN ('Google','晓军博客');
+```
+![](img/28.png)
+
+# SQL BETWEEN 操作符
+BETWEEN 操作符用于选取介于两个值之间的数据范围内的值。
+BETWEEN 操作符选取介于两个值之间的数据范围内的值。这些值可以是数值、文本或者日期。
+## SQL BETWEEN 语法
+```
+SELECT column_name FROM table_name WHERE column_name BETWEEN value1 AND value2;
+```
+
+## 实例
+下面的 SQL 语句选取 alexa 介于 1 和 20 之间的所有网站：
+```
+SELECT * FROM websites WHERE alexa BETWEEN '1' AND '20';
+```
+![](img/29.png)
+
+## NOT BETWEEN 操作符实例
+选择不在1到20之间的
+```
+SELECT * FROM websites WHERE alexa NOT BETWEEN 1 AND 20;
+```
+![](img/30.png)
+
+## 带有 IN 的 BETWEEN 操作符实例
+下面的 SQL 语句选取alexa介于 1 和 20 之间但 country 不为 USA 和 IND 的所有网站：
+```
+SELECT * FROM websites WHERE (alexa BETWEEN 1 AND 20) AND NOT country IN ('USA','IND');
+```
+![](img/31.png)
+
+## 带有文本值的 BETWEEN 操作符实例
+下面的 SQL 语句选取 name 以介于 'A' 和 'H' 之间字母开始的所有网站：
+```
+SELECT * FROM websites WHERE name BETWEEN 'A' AND 'H';
+```
+![](img/32.png)
+** 注意：首字母！！匹配首字母！！
+
+## 带有文本值的 NOT BETWEEN 操作符实例
+```
+SELECT * FROM websites WHERE name NOT BETWEEN 'A' AND 'H';
+```
+![](img/33.png)
+
+## 示例表
+下面是 "access_log" 网站访问记录表的数据，其中：
+aid：为自增 id。
+site_id：为对应 websites表的网站 id。
+count：访问次数。
+date：为访问日期。
+![](img/34.png)
+
+## 带有日期值的 BETWEEN 操作符实例
+下面的 SQL 语句选取 date 介于 '2016-05-10' 和 '2016-05-14' 之间的所有访问记录：
+```
+SELECT * FROM access_log WHERE date BETWEEN '2016-05-10' AND '2016-05-14';
+```
+![](img/35.png)
+** 注意：请注意，在不同的数据库中，BETWEEN 操作符会产生不同的结果！
+在某些数据库中，BETWEEN 选取介于两个值之间但不包括两个测试值的字段。
+在某些数据库中，BETWEEN 选取介于两个值之间且包括两个测试值的字段。
+在某些数据库中，BETWEEN 选取介于两个值之间且包括第一个测试值但不包括最后一个测试值的字段。
+
+因此，请检查您的数据库是如何处理 BETWEEN 操作符！
+
+# SQL 别名
+通过使用 SQL，可以为表名称或列名称指定别名。
+
+基本上，创建别名是为了让列名称的可读性更强。
+
+## 列的 SQL 别名语法
+```
+SELECT column_name AS alias_name FROM table_name;
+```
+
+## 表的sql别名语法
+```
+SELECT column_name FROM table_name AS alias_name;
+```
+
+## 列别名实例
+下面的 SQL 语句指定了两个别名，一个是 name 列的别名，一个是 country 列的别名。提示：如果列名称包含空格，要求使用双引号或方括号：
