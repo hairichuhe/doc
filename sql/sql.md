@@ -24,7 +24,8 @@
 
 ## 本教程使用的sql文件
 [websites](file/websites.sql)
-[access_log](access_log/websites.sql)
+[access_log](file/access_log.sql)
+[apps](file/apps.sql)
 ## 在您的网站中使用 SQL
 1.数据库
 2.SQL（入库）
@@ -543,3 +544,146 @@ SQL JOIN 子句用于把来自两个或多个表的行结合起来，基于这�
 SELECT websites.id,websites.name,access_log.count,access_log.date FROM websites INNER JOIN access_log ON websites.id=access_log.site_id
 ```
 ![](img/40.png)
+
+## 不同的 SQL JOIN
+
+在我们继续讲解实例之前，我们先列出您可以使用的不同的 SQL JOIN 类型：
+
+    INNER JOIN：如果表中有至少一个匹配，则返回行
+    LEFT JOIN：即使右表中没有匹配，也从左表返回所有的行
+    RIGHT JOIN：即使左表中没有匹配，也从右表返回所有的行
+    FULL JOIN：只要其中一个表中存在匹配，则返回行
+
+
+## SQL INNER JOIN 关键字
+INNER JOIN 关键字在表中存在至少一个匹配时返回行。
+
+## INNER JOIN 语法
+```
+SELECT column_name FROM table1 INNER JOIN table2 ON table1.column_name=table2.column_name;
+```
+或者
+```
+SELECT column_name FROM table1 JOIN table2 ON table1.column_name=table2.column_name;
+```
+
+**　注意：INNER JOIN 和 JOIN 是相同的
+
+## INNER JOIN 实例
+```
+SELECT websites.name,access_log.count,access_log.date
+FROM websites
+INNER JOIN access_log
+ON websites.id=access_log.site_id
+ORDER BY access_log.count;
+```
+![](img/41.png)
+**　注释：INNER JOIN 关键字在表中存在至少一个匹配时返回行。如果 "Websites" 表中的行在 "access_log" 中没有匹配，则不会列出这些行。
+
+# SQL LEFT JOIN 关键字
+LEFT JOIN 关键字从左表（table1）返回所有的行，即使右表（table2）中没有匹配。如果右表中没有匹配，则结果为 NULL。
+
+## SQL LEFT JOIN 语法
+```
+SELECT column_name FROM table1 LEFT JOIN table2 ON　table1.column_name=table2.column_name;
+```
+
+## SQL LEFT JOIN 实例
+下面的 SQL 语句将返回所有网站及他们的访问量（如果有的话）。
+
+以下实例中我们把 Websites 作为左表，access_log 作为右表：
+
+```
+SELECT websites.name,access_log.count,access_log.date
+FROM websites
+LEFT JOIN access_log
+ON websites.id=access_log.site_id
+ORDER BY access_log.count
+DESC;
+```
+![](img/42.png)
+**　注释：LEFT JOIN 关键字从左表（Websites）返回所有的行，即使右表（access_log）中没有匹配。
+
+# SQL RIGHT JOIN 关键字
+RIGHT JOIN 关键字从右表（table2）返回所有的行，即使左表（table1）中没有匹配。如果左表中没有匹配，则结果为 NULL。
+## SQL RIGHT JOIN 语法
+```
+SELECT column_name FROM table1 RIGHT JOIN table2 ON table.column=table2.column;
+```
+
+## SQL RIGHT JOIN 实例
+下面的 SQL 语句将返回网站的访问记录。
+
+以下实例中我们把 access_log 作为左表，Websites 作为右表：
+```
+SELECT websites.name, access_log.count,access_log.date
+FROM access_log
+RIGHT JOIN websites
+ON access_log.site_id=websites.id
+ORDER BY access_log.count
+DESC;
+```
+![](img/43.png)
+** 注释：RIGHT JOIN 关键字从右表（Websites）返回所有的行，即使左表（access_log）中没有匹配。
+
+## SQL FULL OUTER JOIN 关键字
+FULL OUTER JOIN 关键字只要左表（table1）和右表（table2）其中一个表中存在匹配，则返回行.
+
+FULL OUTER JOIN 关键字结合了 LEFT JOIN 和 RIGHT JOIN 的结果。
+
+## SQL FULL OUTER JOIN 语法
+```
+SELECT column_name
+FROM table1
+FULL JOIN table2
+ON table.column=table2.column
+```
+
+## SQL FULL OUTER JOIN 实例
+下面的 SQL 语句选取所有网站访问记录。
+
+MySQL中不支持 FULL OUTER JOIN，你可以在 SQL Server 测试以下实例。
+```
+SELECT websites.name,access_log.count,access_log.date
+FROM websites
+FULL JOIN access_log
+ON websites.id=access_log.site_id
+ORDER BY access_log.count 
+DESC;
+```
+** 注释：FULL OUTER JOIN 关键字返回左表（Websites）和右表（access_log）中所有的行。如果 "Websites" 表中的行在 "access_log" 中没有匹配或者 "access_log" 表中的行在 "Websites" 表中没有匹配，也会列出这些行。
+
+# SQL UNION 操作符
+SQL UNION 操作符合并两个或多个 SELECT 语句的结果。
+UNION 操作符用于合并两个或多个 SELECT 语句的结果集。
+
+请注意，UNION 内部的每个 SELECT 语句必须拥有相同数量的列。列也必须拥有相似的数据类型。同时，每个 SELECT 语句中的列的顺序必须相同。
+
+## SQL UNION 语法
+```
+SELECT column_name FROM　table
+UNION
+SELECT column_name FROM table
+```
+** 注释：UNION 结果集中的列名总是等于 UNION 中第一个 SELECT 语句中的列名。
+
+## SQL UNION 实例
+下面的 SQL 语句从 "Websites" 和 "apps" 表中选取所有不同的country（只有不同的值）：
+```
+SELECT country FROM websites
+UNION
+SELECT country FROM apps
+ORDER BY country;
+```
+![](img/44.png)
+**　注释：UNION 不能用于列出两个表中所有的country。如果一些网站和APP来自同一个国家，每个国家只会列出一次。UNION 只会选取不同的值。请使用 UNION ALL 来选取重复的值！
+
+## SQL UNION ALL 实例
+下面的 SQL 语句使用 UNION ALL 从 "Websites" 和 "apps" 表中选取所有的country（也有重复的值）：
+```
+SELECT country FROM websites
+UNION ALL
+SELECT country FROM apps
+ORDER BY country;
+```
+![](img/45.png)
