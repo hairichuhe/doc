@@ -819,3 +819,274 @@ SQL 约束用于规定表中的数据规则。
 如果存在违反约束的数据行为，行为会被约束终止。
 
 约束可以在创建表时规定（通过 CREATE TABLE 语句），或者在表创建之后规定（通过 ALTER TABLE 语句）。
+
+## SQL CREATE TABLE + CONSTRAINT 语法
+```
+CREATE TABLE table_name
+(
+column_name1 data_type(size) constraint_name,
+column_name2 data_type(size) constraint_name,
+column_name3 data_type(size) constraint_name
+)
+```
+在 SQL 中，我们有如下约束：
+
+    NOT NULL - 指示某列不能存储 NULL 值。
+    UNIQUE - 保证某列的每行必须有唯一的值。
+    PRIMARY KEY - NOT NULL 和 UNIQUE 的结合。确保某列（或两个列多个列的结合）有唯一标识，有助于更容易更快速地找到表中的一个特定的记录。
+    FOREIGN KEY - 保证一个表中的数据匹配另一个表中的值的参照完整性。
+    CHECK - 保证列中的值符合指定的条件。
+    DEFAULT - 规定没有给列赋值时的默认值。
+
+在下面的章节，我们会详细讲解每一种约束。
+
+## SQL NOT NULL 约束
+NOT NULL 约束强制列不接受 NULL 值。
+
+NOT NULL 约束强制字段始终包含
+值。这意味着，如果不向字段添加值，就无法插入新记录或者更新记录。
+
+下面的 SQL 强制 "P_Id" 列和 "LastName" 列不接受 NULL 值：
+
+```
+CREATE TABLE 
+(
+P_Id int NOT NULL,
+LastName varchar(256) NOT NULL,
+FristName varchar(256),
+Address varchar(256),
+City varchar(255)
+)
+```
+
+# SQL UNIQUE 约束
+UNIQUE 约束唯一标识数据库表中的每条记录。
+
+UNIQUE 和 PRIMARY KEY 约束均为列或列集合提供了唯一性的保证。
+
+PRIMARY KEY 约束拥有自动定义的 UNIQUE 约束。
+
+请注意，每个表可以有多个 UNIQUE 约束，但是每个表只能有一个 PRIMARY KEY 约束。
+
+## CREATE TABLE 时的 SQL UNIQUE 约束
+下面的 SQL 在 "Persons" 表创建时在 "P_Id" 列上创建 UNIQUE 约束：
+
+MySQL：
+```
+CREATE TABLE psersons
+(
+P_id int NOT NULL,
+LastName varchar(255) NOT NULL,
+FirstName varchar(255),
+City varchar(255),
+UNIQUE (P_id)
+)
+```
+
+## ALTER TABLE 时的 SQL UNIQUE 约束
+
+当表已被创建时，如需在 "P_Id" 列创建 UNIQUE 约束，请使用下面的 SQL：
+```
+ALERT TABLE Persons
+ADD UNIQUE (P_Id)
+```
+
+##　撤销 UNIQUE 约束
+如需撤销 UNIQUE 约束，请使用下面的 SQL：
+
+MySQL：
+```
+ALTER TABLE person
+DROP INDEX P_Id
+```
+
+# SQL PRIMARY KEY 约束
+PRIMARY KEY 约束唯一标识数据库表中的每条记录。
+
+主键必须包含唯一的值。
+
+主键列不能包含 NULL 值。
+
+每个表都应该有一个主键，并且每个表只能有一个主键。
+
+##　CREATE TABLE 时的 SQL PRIMARY KEY 约束
+下面的 SQL 在 "Persons" 表创建时在 "P_Id" 列上创建 PRIMARY KEY 约束：
+
+MySQL：
+```
+CREATE TABLE Persons
+(
+P_Id int NOT NULL,
+LastName varchar(255)NOT NULL,
+Fristname varchar(255),
+Address varchar(255),
+City varchar(255),
+PRIMARY KEY (P_Id)
+)
+```
+
+## ALTER TABLE 时的 SQL PRIMARY KEY 约束
+当表已被创建时，如需在 "P_Id" 列创建 PRIMARY KEY 约束，请使用下面的 SQL：
+
+MySQL / SQL Server / Oracle / MS Access：
+```
+ALTER TABLE persons
+ADD PRIMARY KEY (P_Id
+```
+
+##　撤销 PRIMARY KEY 约束
+如需撤销 PRIMARY KEY 约束，请使用下面的 SQL：
+
+MySQL：
+```
+ALTER TABLE persons
+DROP PRIMARY KEY
+```
+
+# SQL FOREIGN KEY 约束
+一个表中的 FOREIGN KEY 指向另一个表中的 PRIMARY KEY。
+
+让我们通过一个实例来解释外键。请看下面两个表：
+
+"Persons" 表：
+![](img/53.png)
+"Orders" 表：
+![](img/54.png)
+
+
+请注意，"Orders" 表中的 "P_Id" 列指向 "Persons" 表中的 "P_Id" 列。
+
+"Persons" 表中的 "P_Id" 列是 "Persons" 表中的 PRIMARY KEY。
+
+"Orders" 表中的 "P_Id" 列是 "Orders" 表中的 FOREIGN KEY。
+
+FOREIGN KEY 约束用于预防破坏表之间连接的行为。
+
+FOREIGN KEY 约束也能防止非法数据插入外键列，因为它必须是它指向的那个表中的值之一。
+
+## CREATE TABLE 时的 SQL FOREIGN KEY 约束
+下面的 SQL 在 "Orders" 表创建时在 "P_Id" 列上创建 FOREIGN KEY 约束：
+
+MySQL：
+```
+CREATE TABLE orders
+(
+o_id int NOT NULL,
+orderNo int NOT NULL,
+P_Id int,
+PRIMARY KEY (o_id),
+FOREIGN KEY (p_id) REFERENCES persons(P_id)
+)
+```
+
+## ALTER TABLE 时的 SQL FOREIGN KEY 约束
+当 "Orders" 表已被创建时，如需在 "P_Id" 列创建 FOREIGN KEY 约束，请使用下面的 SQL：
+
+MySQL / SQL Server / Oracle / MS Access：
+```
+ALTER TABLE orders
+ADD FOREIGN KEY (P_id)
+REFERENCES persons(p_id)
+```
+
+## 撤销 FOREIGN KEY 约束
+如需撤销 FOREIGN KEY 约束，请使用下面的 SQL：
+
+MySQL：
+```
+ALTER TABLE orders
+DROP FORENGIN KEY orders
+```
+
+# SQL CHECK 约束
+
+
+CHECK 约束用于限制列中的值的范围。
+
+如果对单个列定义 CHECK 约束，那么该列只允许特定的值。
+
+如果对一个表定义 CHECK 约束，那么此约束会基于行中其他列的值在特定的列中对值进行限制。
+
+## CREATE TABLE 时的 SQL CHECK 约束
+下面的 SQL 在 "Persons" 表创建时在 "P_Id" 列上创建 CHECK 约束。CHECK 约束规定 "P_Id" 列必须只包含大于 0 的整数。
+
+MySQL：
+```
+CREATE TABLE persons
+p_id int NOT NULL,
+LastName varchar(255) NOT NULL,
+FristName varchar(255),
+Address varchar(255),
+City varchar(255),
+CHECK (P_Id>0)
+```
+
+## ALTER TABLE 时的 SQL CHECK 约束
+当表已被创建时，如需在 "P_Id" 列创建 CHECK 约束，请使用下面的 SQL：
+
+MySQL / SQL Server / Oracle / MS Access:
+```
+ALTER TABLE persons
+ADD CHECK (P_Id>0)
+```
+
+## 撤销 CHECK 约束
+如需撤销 CHECK 约束，请使用下面的 SQL：
+
+MySQL：
+```
+ALTER TABLE persons
+DROP CHECK persons
+```
+
+# SQL DEFAULT 约束
+DEFAULT 约束用于向列中插入默认值。
+
+如果没有规定其他的值，那么会将默认值添加到所有的新记录。
+
+## CREATE TABLE 时的 SQL DEFAULT 约束
+下面的 SQL 在 "Persons" 表创建时在 "City" 列上创建 DEFAULT 约束：
+
+My SQL / SQL Server / Oracle / MS Access：
+```
+CREATE TABLE persons
+(
+p_id int NOT NULL,
+LastName varchar（255）NOT NULL,
+FirstName varchar(255),
+Address varchar(255),
+City varchar(255) DEFAULT 'shanghai'
+)
+```
+
+## ALTER TABLE 时的 SQL DEFAULT 约束
+当表已被创建时，如需在 "City" 列创建 DEFAULT 约束，请使用下面的 SQL：
+
+MySQL：
+```
+ALTER TABLE persons
+ALTER city SET DEFAULT 'shanghai'
+```
+
+## 撤销 DEFAULT 约束
+如需撤销 DEFAULT 约束，请使用下面的 SQL：
+
+MySQL：
+```
+ALTER TABLE persons
+ALTER city DROP DEFAULT
+```
+
+## SQL CREATE INDEX 语句
+CREATE INDEX 语句用于在表中创建索引。
+
+在不读取整个表的情况下，索引使数据库应用程序可以更快地查找数据。
+
+## 索引
+您可以在表中创建索引，以便更加快速高效地查询数据。
+
+用户无法看到索引，它们只能被用来加速搜索/查询。
+
+**　注释：更新一个包含索引的表需要比更新一个没有索引的表花费更多的时间，这是由于索引本身也需要更新。因此，理想的做法是仅仅在常常被搜索的列（以及表）上面创建索引。
+
+## SQL CREATE INDEX 语法
