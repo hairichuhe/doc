@@ -770,3 +770,52 @@ CREATE DATABASE dbname
 CREATE DATABASE my_db;
 ```
 ![](img/51.png)
+
+# SQL CREATE TABLE 语句
+CREATE TABLE 语句用于创建数据库中的表。
+
+表由行和列组成，每个表都必须有个表名。
+
+## SQL CREATE TABLE 语法
+```
+CREATE TABLE table_name
+(
+column_name1 data_type(size)
+column_name2 data_type(size)
+column_name3 data_type(size)
+)
+```
+column_name 参数规定表中列的名称。
+
+data_type 参数规定列的数据类型（例如 varchar、integer、decimal、date 等等）。
+
+size 参数规定表中列的最大长度。
+
+## SQL CREATE TABLE 实例
+现在我们想要创建一个名为 "Persons" 的表，包含五列：PersonID、LastName、FirstName、Address 和 City。
+
+我们使用下面的 CREATE TABLE 语句：
+```
+CREATE TABLE person
+(
+personID int,
+lastName varchar(255),
+firstName varchar(255),
+addRess varchar(255),
+city varchar(255)
+);
+SELECT * FROM person;
+```
+PersonID 列的数据类型是 int，包含整数。
+
+LastName、FirstName、Address 和 City 列的数据类型是 varchar，包含字符，且这些字段的最大长度为 255 个字符。
+
+空的 "Persons" 表如下所示：
+![](img/52.png)
+
+# SQL 约束（Constraints）
+SQL 约束用于规定表中的数据规则。
+
+如果存在违反约束的数据行为，行为会被约束终止。
+
+约束可以在创建表时规定（通过 CREATE TABLE 语句），或者在表创建之后规定（通过 ALTER TABLE 语句）。
