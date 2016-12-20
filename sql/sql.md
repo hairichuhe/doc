@@ -687,3 +687,86 @@ SELECT country FROM apps
 ORDER BY country;
 ```
 ![](img/45.png)
+
+## 带有 WHERE 的 SQL UNION ALL
+下面的 SQL 语句使用 UNION ALL 从 "Websites" 和 "apps" 表中选取所有的中国(CN)的数据（也有重复的值）：
+```
+SELECT country, name FROM Websites
+WHERE country='CN'
+UNION ALL
+SELECT country, app_name FROM apps
+WHERE country='CN'
+ORDER BY country; 
+```
+![](img/46.png)
+
+# SQL SELECT INTO 语句
+通过 SQL，您可以从一个表复制信息到另一个表。
+
+SELECT INTO 语句从一个表复制数据，然后把数据插入到另一个新表中。
+
+** MySQL 数据库不支持 SELECT ... INTO 语句，但支持 INSERT INTO ... SELECT 。
+
+当然你可以使用以下语句来拷贝表结构及数据： **
+
+## mysql 创建新表并复制
+
+### 语法
+```
+CREATE TABLE 新表 SELECT * FROM 旧表
+```
+
+### 实例
+```
+CREATE TABLE apps_beifen
+SELECT * FROM apps
+```
+![](img/47.png)
+![](img/48.png)
+
+
+# SQL INSERT INTO SELECT 语句
+通过 SQL，您可以从一个表复制信息到另一个表。
+
+INSERT INTO SELECT 语句从一个表复制数据，然后把数据插入到一个已存在的表中。目标表中任何已存在的行都不会受影响。
+
+## SQL INSERT INTO SELECT 语法
+我们可以从一个表中复制所有的列插入到另一个已存在的表中：
+```
+ISNERT INTO tablue2 
+SELECT * FROM table1
+```
+或者我们可以只复制希望的列插入到另一个已存在的表中：
+```
+INSERT INTO table2 (column_name)
+SELECT column_name FROM table1
+```
+## SQL INSERT INTO SELECT 实例
+复制 "apps" 中的数据插入到 "Websites" 中：
+```
+INSERT INTO websites (name,country)
+SELECT app_name,country 
+FROM apps;
+```
+![](img/49.png)
+只复 QQ 的 APP 到 "Websites" 中：
+```
+INSERT INTO websites (name,country)
+SELECT app_name,country
+FROM apps
+WHERE id=1;
+SELECT * FROM websites;
+```
+![](img/50.png)
+
+# SQL CREATE DATABASE 语句
+## SQL CREATE DATABASE 语法
+```
+CREATE DATABASE dbname
+```
+## SQL CREATE DATABASE 实例
+下面的 SQL 语句创建一个名为 "my_db" 的数据库：
+```
+CREATE DATABASE my_db;
+```
+![](img/51.png)
