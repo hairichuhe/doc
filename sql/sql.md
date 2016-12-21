@@ -1119,3 +1119,134 @@ ON psersons (LastName)
 CREATE INDEX pindex
 ON persons (LastName,FristName)
 ```
+
+# SQL 撤销索引、撤销表以及撤销数据库
+通过使用 DROP 语句，可以轻松地删除索引、表和数据库。
+
+## DROP INDEX 语句
+DROP INDEX 语句用于删除表中的索引。
+
+## 用于 MySQL 的 DROP INDEX 语法：
+```
+ALTER TABLE table_name DROP INDEX index_name
+```
+
+## DROP TABLE 语句
+DROP TABLE 语句用于删除表。
+```
+DROP TABLE table_name
+```
+
+## DROP DATABASE 语句
+DROP DATABASE 语句用于删除数据库。
+```
+DROP DATABASE database_name
+```
+
+## TRUNCATE TABLE 语句
+如果我们仅仅需要删除表内的数据，但并不删除表本身，那么我们该如何做呢？
+
+请使用 TRUNCATE TABLE 语句：
+```
+TRUNCATE TABLE table_name
+```
+
+# ALTER TABLE 语句
+ALTER TABLE 语句用于在已有的表中添加、删除或修改列。
+
+## SQL ALTER TABLE 语法
+如需在表中添加列，请使用下面的语法:
+```
+ALTER TABLE table_name
+ADD column_name datatype
+```
+如需删除表中的列，请使用下面的语法（请注意，某些数据库系统不允许这种在数据库表中删除列的方式）：
+```
+ALTER TABLE table_name
+DROP COLUMN column_name
+```
+要改变表中列的数据类型，请使用下面的语法：
+My SQL / Oracle：
+```
+ALTER TABLE table_name
+MODIFY COLUMN column_name datatype
+```
+
+## SQL ALTER TABLE 实例
+请看 "Persons" 表：
+![](img/55.png)
+现在，我们想在 "Persons" 表中添加一个名为 "DateOfBirth" 的列。
+
+我们使用下面的 SQL 语句：
+```
+ALTER TABLE persons
+ADD dataofbirth data
+```
+请注意，新列 "DateOfBirth" 的类型是 date，可以存放日期。
+现在，"Persons" 表将如下所示：
+![](img/56.png)
+
+## 改变数据类型实例
+现在，我们想要改变 "Persons" 表中 "dataofbrith" 列的数据类型。
+
+我们使用下面的 SQL 语句：
+```
+ALTER TABLE persons
+ALTER COLUMN dataofbrith year
+```
+请注意，现在 "dateOfbirth" 列的类型是 year，可以存放 2 位或 4 位格式的年份。
+
+## DROP COLUMN 实例
+接下来，我们想要删除 "Person" 表中的 "DateOfBirth" 列。
+
+我们使用下面的 SQL 语句：
+```
+ALTER TABLE persons
+DROP COLUMN dataofbrith
+```
+
+# SQL AUTO INCREMENT 字段
+Auto-increment 会在新记录插入表中时生成一个唯一的数字。
+我们通常希望在每次插入新记录时，自动地创建主键字段的值。
+
+我们可以在表中创建一个 auto-increment 字段。
+
+## 用于 MySQL 的语法
+下面的 SQL 语句把 "Persons" 表中的 "ID" 列定义为 auto-increment 主键字段：
+```
+CRATE TABLE persons
+(
+ID int NOT NULL ATUO_INCREMENT,
+LastName varchar(255) NOT NULL,
+FristName varchar(255),
+Address varchar(255),
+City varchar(255),
+PRIMARY KEY (ID)
+)
+```
+MySQL 使用 AUTO_INCREMENT 关键字来执行 auto-increment 任务。
+
+默认地，AUTO_INCREMENT 的开始值是 1，每条新记录递增 1。
+
+要让 AUTO_INCREMENT 序列以其他的值起始，请使用下面的 SQL 语法：
+
+```
+ALTER TABLE persons AUTO_INCREMENT=100
+```
+要在 "Persons" 表中插入新记录，我们不必为 "ID" 列规定值（会自动添加一个唯一的值）：
+```
+INSERT INTO persons (FirstName,LastName)
+VALUES ('Lars','Monsen')
+```
+上面的 SQL 语句会在 "Persons" 表中插入一条新记录。"ID" 列会被赋予一个唯一的值。"FirstName" 列会被设置为 "Lars"，"LastName" 列会被设置为 "Monsen"。
+
+# SQL 视图（Views）
+视图是可视化的表。
+
+本章讲解如何创建、更新和删除视图。
+## SQL CREATE VIEW 语句
+在 SQL 中，视图是基于 SQL 语句的结果集的可视化的表。
+
+视图包含行和列，就像一个真实的表。视图中的字段就是来自一个或多个数据库中的真实的表中的字段。
+
+您可以向视图添加 SQL 函数、WHERE 以及 JOIN 语句，也可以呈现数据，就像这些数据来自于某个单一的表一样。
