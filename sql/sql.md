@@ -1250,3 +1250,167 @@ VALUES ('Lars','Monsen')
 视图包含行和列，就像一个真实的表。视图中的字段就是来自一个或多个数据库中的真实的表中的字段。
 
 您可以向视图添加 SQL 函数、WHERE 以及 JOIN 语句，也可以呈现数据，就像这些数据来自于某个单一的表一样。
+
+## SQL CREATE VIEW 语法
+```
+CREATE VIEW view_name AS
+SELECT column_name
+FROM table_name
+WHERE condition
+```
+** 注释：视图总是显示最新的数据！每当用户查询视图时，数据库引擎通过使用视图的 SQL 语句重建数据。
+## SQL CREATE VIEW 实例
+下面的视图是从websites中选出country为CN的数据，这个视图用下面的sql创建
+```
+CREATE VIEW webcn AS
+SELECT id,name,url,country
+FROM websites
+WHERE country='CN';
+```：
+![](img/57.png)
+我们可以像这样查询上面视图
+```
+SELECT * FROM webcn;
+```
+![](img/58.png)
+
+## SQL 更新视图
+
+### SQL CREATE OR REPLACE VIEW 语法
+```
+CREATE OR REPLACE VIEW view_name AS
+SELECT column_name
+FROM table_name
+WHERE condition
+```
+现在想像webcn增加alexa字段
+```
+CREATE OR REPLACE VIEW webcn AS
+SELECT id,name,url,alexa,country
+FROM websites
+WHERE country='CN'
+```
+![](img/59.png)
+
+## SQL 撤销视图
+您可以通过 DROP VIEW 命令来删除视图。
+### sql撤销视图语法
+```
+DROP VIEW view_name;
+```
+
+# SQL Date 函数
+## SQL 日期（Dates）
+当我们处理日期时，最难的任务恐怕是确保所插入的日期的格式，与数据库中日期列的格式相匹配。
+
+只要您的数据包含的只是日期部分，运行查询就不会出问题。但是，如果涉及时间部分，情况就有点复杂了。
+
+在讨论日期查询的复杂性之前，我们先来看看最重要的内建日期处理函数。
+
+## MySQL Date 函数
+下面列出了 MySQL 中最重要的内建日期函数：
+
+### NOW() 	返回当前的日期和时间
+now 实例
+```
+SELECT NOW(),CURDATE(),CURTIME()
+```
+![](img/60.png)
+
+表格中引用实例
+```
+CREATE TABLE orders
+(
+orderId int NOT NULL,
+productName varchar(255) NOT NULL,
+orderDate datetime NOT NULL DEFAULT NOW(),
+PRIMARY KEY (orderId)
+)
+```
+![](img/61.png)
+请注意，OrderDate 列规定 NOW() 作为默认值。作为结果，当您向表中插入行时，当前日期和时间自动插入列中。
+
+现在，我们想要在 "Orders" 表中插入一条记录：
+```
+INSERT INTO orders (productName)
+VALUES ('webthreat');
+SELECT * FROM orders;
+```
+![](img/62.png)
+** 应用提示：创建时间可以用now记录 **
+
+### CURDATE() 	返回当前的日期
+同now();
+
+### CURTIME() 	返回当前的时间
+同now();
+
+### DATE() 	提取日期或日期/时间表达式的日期部分
+实例：
+演示数据
+![](img/63.png)
+下面是 SELECT 语句：
+```
+SELECT productName,DATE(orderDate) AS orderDate
+FROM orders
+```
+![](img/64.png)
+
+### EXTRACT()
+	EXTRACT() 函数用于返回日期/时间的单独部分，比如年、月、日、小时、分钟等等。
+语法
+```
+EXTRACT(unit FROM data)
+```
+date 参数是合法的日期表达式。unit 参数可以是下列的值：
+Unit 值
+MICROSECOND
+SECOND
+MINUTE
+HOUR
+DAY
+WEEK
+MONTH
+QUARTER
+YEAR
+SECOND_MICROSECOND
+MINUTE_MICROSECOND
+MINUTE_SECOND
+HOUR_MICROSECOND
+HOUR_SECOND
+HOUR_MINUTE
+DAY_MICROSECOND
+DAY_SECOND
+DAY_MINUTE
+DAY_HOUR
+YEAR_MONTH
+
+实例：
+演示数据
+![](img/63.png)
+
+下面是 SELECT 语句：
+```
+SELECT EXTRACT(YEAR FROM orderDate) AS year,
+EXTRACT(MONTH FROM orderDate) AS month,
+EXTRACT(DAY FROM orderDate) AS day
+FROM orders
+```
+![](img/65.png)
+
+DATE_ADD() 	向日期添加指定的时间间隔
+
+DATE_SUB() 	从日期减去指定的时间间隔
+
+DATEDIFF() 	返回两个日期之间的天数
+
+DATE_FORMAT() 	用不同的格式显示日期/时间
+
+## SQL Date 数据类型
+MySQL 使用下列数据类型在数据库中存储日期或日期/时间值：
+
+    DATE - 格式：YYYY-MM-DD
+    DATETIME - 格式：YYYY-MM-DD HH:MM:SS
+    TIMESTAMP - 格式：YYYY-MM-DD HH:MM:SS
+    YEAR - 格式：YYYY 或 YY
+** 注释：当您在数据库中创建一个新表时，需要为列选择数据类型！
