@@ -1967,6 +1967,12 @@ HAVING aggregate_function(column_name) operator value;
 
 我们使用下面的 SQL 语句：
 ```
+SELECT websites.name,websites.url,SUM(access_log.count)
+AS nums
+FROM (access_log INNER JOIN websites
+ON access_log.site_id=websites.id)
+GROUP BY websites.name
+HAVING SUM(access_log.count) > 200
 ```
 ![](img/97.png)
 现在我们想要查找总访问量大于 200 的网站，并且 alexa 排名小于 200。
