@@ -1398,13 +1398,156 @@ FROM orders
 ```
 ![](img/65.png)
 
-DATE_ADD() 	向日期添加指定的时间间隔
+### DATE_ADD() 	向日期添加指定的时间间隔
 
-DATE_SUB() 	从日期减去指定的时间间隔
+语法：
+```
+DATA_ADD (data,INTERVAL expr type)
+```
+date 参数是合法的日期表达式。expr 参数是您希望添加的时间间隔。
+type 参数可以是下列值：
+Type 值
+MICROSECOND
+SECOND
+MINUTE
+HOUR
+DAY
+WEEK
+MONTH
+QUARTER
+YEAR
+SECOND_MICROSECOND
+MINUTE_MICROSECOND
+MINUTE_SECOND
+HOUR_MICROSECOND
+HOUR_SECOND
+HOUR_MINUTE
+DAY_MICROSECOND
+DAY_SECOND
+DAY_MINUTE
+DAY_HOUR
+YEAR_MONTH
 
-DATEDIFF() 	返回两个日期之间的天数
+实例：
+示例数据
+![](img/66.png)
+现在，我们想要向 "OrderDate" 添加 45 天，这样就可以找到付款日期。
 
-DATE_FORMAT() 	用不同的格式显示日期/时间
+我们使用下面的 SELECT 语句：
+```
+SELECT orderId,DATE_ADD(orderDate,INTERVAL 45 DAY)
+FROM orders
+```
+![](img/67.png)
+
+### DATE_SUB()
+DATE_SUB() 函数从日期减去指定的时间间隔。
+语法：
+```
+DATE_SUB(date,INTERVAL expr type)
+```
+date参数是合法的日期表达式，expr参数是您希望添加的时间间隔。
+type 参数可以是下列值：
+Type 值
+MICROSECOND
+SECOND
+MINUTE
+HOUR
+DAY
+WEEK
+MONTH
+QUARTER
+YEAR
+SECOND_MICROSECOND
+MINUTE_MICROSECOND
+MINUTE_SECOND
+HOUR_MICROSECOND
+HOUR_SECOND
+HOUR_MINUTE
+DAY_MICROSECOND
+DAY_SECOND
+DAY_MINUTE
+DAY_HOUR
+YEAR_MONTH
+
+实例：
+示例数据
+![](img/66.png)
+现在，我们想要向 "OrderDate" 减去 5 天。
+
+我们使用下面的 SELECT 语句：
+```
+SELECT orderId,DATE_SUB(orderDate,INTERVAL 5 DAY) AS beforedata
+FROM orders
+```
+![](img/68.png)
+
+### DATEDIFF() 	返回两个日期之间的天数
+语法：
+```
+DATEDIFF(date1,date2)
+```
+date1 和 date2 参数是合法的日期或日期/时间表达式。
+
+** 注释：只有值的日期部分参与计算。
+实例：
+下面是SELECT语句：
+```
+SELECT DATEDIFF('2016-12-11','2016-12-10') AS diff
+```
+![](img/69.png)
+
+### DATE_FORMAT() 	用不同的格式显示日期/时间
+语法：
+```
+DATE_FROMAT(date,format)
+```
+date 参数是合法的日期。format 规定日期/时间的输出格式。
+
+可以使用的格式有：
+格式 	描述
+%a 	缩写星期名
+%b 	缩写月名
+%c 	月，数值
+%D 	带有英文前缀的月中的天
+%d 	月的天，数值（00-31）
+%e 	月的天，数值（0-31）
+%f 	微秒
+%H 	小时（00-23）
+%h 	小时（01-12）
+%I 	小时（01-12）
+%i 	分钟，数值（00-59）
+%j 	年的天（001-366）
+%k 	小时（0-23）
+%l 	小时（1-12）
+%M 	月名
+%m 	月，数值（00-12）
+%p 	AM 或 PM
+%r 	时间，12-小时（hh:mm:ss AM 或 PM）
+%S 	秒（00-59）
+%s 	秒（00-59）
+%T 	时间, 24-小时（hh:mm:ss）
+%U 	周（00-53）星期日是一周的第一天
+%u 	周（00-53）星期一是一周的第一天
+%V 	周（01-53）星期日是一周的第一天，与 %X 使用
+%v 	周（01-53）星期一是一周的第一天，与 %x 使用
+%W 	星期名
+%w 	周的天（0=星期日, 6=星期六）
+%X 	年，其中的星期日是周的第一天，4 位，与 %V 使用
+%x 	年，其中的星期一是周的第一天，4 位，与 %v 使用
+%Y 	年，4 位
+%y 	年，2 位
+
+实例
+
+下面的脚本使用 DATE_FORMAT() 函数来显示不同的格式。我们使用 NOW() 来获得当前的日期/时间：
+```
+SELECT DATE_FORMAT(NOW(),'%b %d %Y %h:%i %p') AS date1,
+DATE_FORMAT(NOW(),'%m-%d-%Y') AS date2,
+DATE_FORMAT(NOW(),'%d %b %y') AS date3,
+DATE_FORMAT(NOW(),'%d %b %Y %T:%f') AS date4
+```
+![](img/70.png)
 
 ## SQL Date 数据类型
 MySQL 使用下列数据类型在数据库中存储日期或日期/时间值：
@@ -1414,3 +1557,421 @@ MySQL 使用下列数据类型在数据库中存储日期或日期/时间值：
     TIMESTAMP - 格式：YYYY-MM-DD HH:MM:SS
     YEAR - 格式：YYYY 或 YY
 ** 注释：当您在数据库中创建一个新表时，需要为列选择数据类型！
+
+## SQL 日期处理
+如果不涉及时间部分，那么我们可以轻松地比较两个日期！
+
+假设我们有如下的 "Orders" 表：
+![](img/71.png)
+现在，我们希望从上表中选取 OrderDate 为 "2008-11-11" 的记录。
+
+我们使用下面的 SELECT 语句：
+```
+SELECT * FROM Orders WHERE OrderDate='2008-11-11'
+```
+结果集如下所示：
+![](img/72.png)
+现在，假设 "Orders" 表如下所示（请注意 "OrderDate" 列中的时间部分）：
+![](img/73.png)
+如果我们使用和上面一样的 SELECT 语句
+```
+SELECT * FROM Orders WHERE OrderDate='2008-11-11'
+```
+那么我们将得不到结果！这是由于该查询的日期不含有时间部分。
+
+提示：如果您希望使查询简单且更易维护，那么请不要在日期中使用时间部分！
+
+# SQL NULL 值
+NULL 值代表遗漏的未知数据。
+
+默认地，表的列可以存放 NULL 值。
+
+本章讲解 IS NULL 和 IS NOT NULL 操作符。
+如果表中的某个列是可选的，那么我们可以在不向该列添加值的情况下插入新记录或更新已有的记录。这意味着该字段将以 NULL 值保存。
+
+NULL 值的处理方式与其他值不同。
+
+NULL 用作未知的或不适用的值的占位符。
+
+** Note注释：无法比较 NULL 和 0；它们是不等价的。
+## SQL 的 NULL 值处理
+
+请看下面的 "Persons" 表：
+![](img/74.png)
+假如 "Persons" 表中的 "Address" 列是可选的。这意味着如果在 "Address" 列插入一条不带值的记录，"Address" 列会使用 NULL 值保存。
+
+那么我们如何测试 NULL 值呢？
+
+无法使用比较运算符来测试 NULL 值，比如 =、< 或 <>。
+
+我们必须使用 IS NULL 和 IS NOT NULL 操作符。
+
+## SQL IS NULL
+我们如何仅仅选取在 "Address" 列中带有 NULL 值的记录呢？
+
+我们必须使用 IS NULL 操作符：
+```
+SELECT * FROM person
+WHERE addRess IS NULL
+```
+结果集如下所示：
+![](img/75.png)
+** 提示：请始终使用 IS NULL 来查找 NULL 值。
+
+## SQL IS NOT NULL
+我们如何仅仅选取在 "Address" 列中不带有 NULL 值的记录呢？
+
+我们必须使用 IS NOT NULL 操作符：
+```
+SELECT * FROM person
+WHERE addRess IS NOT NULL
+```
+![](img/76.png)
+
+# SQL NULL 函数
+SQL ISNULL()、NVL()、IFNULL() 和 COALESCE() 函数
+
+请看下面的 "Products" 表：
+![](img/77.png)
+假如 "UnitsOnOrder" 是可选的，而且可以包含 NULL 值。
+
+我们使用下面的 SELECT 语句：
+```
+SELECT ProductName,UnitPrice*(UnitsInStock+UnitsOnOrder)
+FROM Products
+```
+在上面的实例中，如果有 "UnitsOnOrder" 值是 NULL，那么结果是 NULL。
+
+微软的 ISNULL() 函数用于规定如何处理 NULL 值。
+
+NVL()、IFNULL() 和 COALESCE() 函数也可以达到相同的结果。
+
+在这里，我们希望 NULL 值为 0。
+
+下面，如果 "UnitsOnOrder" 是 NULL，则不会影响计算，因为如果值是 NULL 则 ISNULL() 返回 0：
+
+MySQL
+
+MySQL 也拥有类似 ISNULL() 的函数。不过它的工作方式与微软的 ISNULL() 函数有点不同。
+
+在 MySQL 中，我们可以使用 IFNULL() 函数，如下所示：
+```
+SELECT ProductName,UnitPrice*(UnitsInStock+IFNULL(UnitsOnOrder,0))
+FROM Products
+```
+或者我们可以使用 COALESCE() 函数，如下所示：
+```
+SELECT ProductName,UnitPrice*(UnitsInStock+COALESCE(UnitsOnOrder,0))
+FROM Products
+```
+
+# SQL 通用数据类型
+数据库表中的每个列都要求有名称和数据类型。Each column in a database table is required to have a name and a data type.
+
+SQL 开发人员必须在创建 SQL 表时决定表中的每个列将要存储的数据的类型。数据类型是一个标签，是便于 SQL 了解每个列期望存储什么类型的数据的指南，它也标识了 SQL 如何与存储的数据进行交互。
+
+下面的表格列出了 SQL 中通用的数据类型：
+数据类型 	描述
+CHARACTER(n) 	字符/字符串。固定长度 n。
+VARCHAR(n) 或
+CHARACTER VARYING(n) 	字符/字符串。可变长度。最大长度 n。
+BINARY(n) 	二进制串。固定长度 n。
+BOOLEAN 	存储 TRUE 或 FALSE 值
+VARBINARY(n) 或
+BINARY VARYING(n) 	二进制串。可变长度。最大长度 n。
+INTEGER(p) 	整数值（没有小数点）。精度 p。
+SMALLINT 	整数值（没有小数点）。精度 5。
+INTEGER 	整数值（没有小数点）。精度 10。
+BIGINT 	整数值（没有小数点）。精度 19。
+DECIMAL(p,s) 	精确数值，精度 p，小数点后位数 s。例如：decimal(5,2) 是一个小数点前有 3 位数小数点后有 2 位数的数字。
+NUMERIC(p,s) 	精确数值，精度 p，小数点后位数 s。（与 DECIMAL 相同）
+FLOAT(p) 	近似数值，尾数精度 p。一个采用以 10 为基数的指数计数法的浮点数。该类型的 size 参数由一个指定最小精度的单一数字组成。
+REAL 	近似数值，尾数精度 7。
+FLOAT 	近似数值，尾数精度 16。
+DOUBLE PRECISION 	近似数值，尾数精度 16。
+DATE 	存储年、月、日的值。
+TIME 	存储小时、分、秒的值。
+TIMESTAMP 	存储年、月、日、小时、分、秒的值。
+INTERVAL 	由一些整数字段组成，代表一段时间，取决于区间的类型。
+ARRAY 	元素的固定长度的有序集合
+MULTISET 	元素的可变长度的无序集合
+XML 	存储 XML 数据
+
+## SQL 数据类型快速参考手册
+
+
+然而，不同的数据库对数据类型定义提供不同的选择。
+
+下面的表格显示了各种不同的数据库平台上一些数据类型的通用名称：
+![](img/78.png)
+
+** 注释：在不同的数据库中，同一种数据类型可能有不同的名称。即使名称相同，尺寸和其他细节也可能不同！ 请总是检查文档！
+
+# SQL 用于各种数据库的数据类型
+Microsoft Access、MySQL 和 SQL Server 所使用的数据类型和范围。
+
+## MySQL 数据类型
+
+在 MySQL 中，有三种主要的类型：Text（文本）、Number（数字）和 Date/Time（日期/时间）类型。
+
+### Text 类型：
+![](img/79.png)
+
+### Number 类型：
+![](img/80.png)
+
+*这些整数类型拥有额外的选项 UNSIGNED。通常，整数可以是负数或正数。如果添加 UNSIGNED 属性，那么范围将从 0 开始，而不是某个负数。
+
+### Date 类型：
+![](img/81.png)
+*即便 DATETIME 和 TIMESTAMP 返回相同的格式，它们的工作方式很不同。在 INSERT 或 UPDATE 查询中，TIMESTAMP 自动把自身设置为当前的日期和时间。TIMESTAMP 也接受不同的格式，比如 YYYYMMDDHHMMSS、YYMMDDHHMMSS、YYYYMMDD 或 YYMMDD。
+
+# SQL 函数
+SQL 拥有很多可用于计数和计算的内建函数。
+
+## SQL Aggregate 函数
+SQL Aggregate 函数计算从列中取得的值，返回一个单一的值。
+
+有用的 Aggregate 函数：
+
+    AVG() - 返回平均值
+    COUNT() - 返回行数
+    FIRST() - 返回第一个记录的值
+    LAST() - 返回最后一个记录的值
+    MAX() - 返回最大值
+    MIN() - 返回最小值
+    SUM() - 返回总和
+
+## SQL Scalar 函数
+SQL Scalar 函数基于输入值，返回一个单一的值。
+
+有用的 Scalar 函数：
+
+    UCASE() - 将某个字段转换为大写
+    LCASE() - 将某个字段转换为小写
+    MID() - 从某个文本字段提取字符
+    LEN() - 返回某个文本字段的长度
+    ROUND() - 对某个数值字段进行指定小数位数的四舍五入
+    NOW() - 返回当前的系统日期和时间
+    FORMAT() - 格式化某个字段的显示方式
+
+# AVG() 函数
+AVG() 函数返回数值列的平均值。
+
+## AVG() 函数返回数值列的平均值。
+```
+SELECT AVG(column_name) FROM table_name
+```
+
+## 演示数据库
+![](img/82.png)
+
+## SQL AVG() 实例
+下面的 SQL 语句从 "access_log" 表的 "count" 列获取平均值：
+```
+SELECT AVG(count) AS avg FROM access_log
+```
+![](img/83.png)
+下面的 SQL 语句选择访问量高于平均访问量的 "site_id" 和 "count"：
+```
+SELECT site_id,count
+FROM access_log
+WHERE count>(SELECT AVG(count) FROM access_log)
+```
+![](img/84.png)
+
+# SQL COUNT() 函数
+COUNT() 函数返回匹配指定条件的行数。
+
+## SQL COUNT(column_name) 语法
+COUNT(column_name) 函数返回指定列的值的数目（NULL 不计入）：
+```
+SELECT COUNT(column_name)FROM table_name;
+```
+
+## SQL COUNT(*) 语法
+COUNT(*) 函数返回表中的记录数：
+```
+SELECT COUNT(*) FORM table_name;
+```
+
+## SQL COUNT(DISTINCT column_name) 语法
+COUNT(DISTINCT column_name) 函数返回指定列的不同值的数目：
+```
+SELECT COUNT(DISTINCT column_name)FROM table_name;
+```
+** 注释：COUNT(DISTINCT) 适用于 ORACLE 和 Microsoft SQL Server，但是无法用于 Microsoft Access。
+
+## SQL COUNT(column_name) 实例
+下面的 SQL 语句计算 "access_log" 表中 "site_id"=3 的总访问量：
+```
+SELECT COUNT(count) as nums
+FROM access_log
+WHERE site_id=3
+```
+![](img/85.png)
+
+## SQL COUNT(*) 实例
+下面的 SQL 语句计算 "access_log" 表中总记录数：
+```
+SELECT COUNT(*) AS nums
+FROM access_log
+```
+![](img/86.png)
+
+
+## SQL COUNT(DISTINCT column_name) 实例
+下面的 SQL 语句计算 "access_log" 表中不同 site_id 的记录数：
+```
+SELECT COUNT(DISTINCT site_id) AS nums
+FROM access_log
+```
+![](img/87.png)
+
+# SQL FIRST() 函数
+FIRST() 函数返回指定的列中第一个记录的值。
+
+## MySQL 语法
+```
+SELECT column_name FROM table_name
+ORDER BY column_name ASC
+LIMIT 1;
+```
+
+实例：
+```
+SELECT name AS FristSite
+FROM websites
+ORDER BY name ASC
+LIMIT 1
+```
+![](img/88.png)
+
+# SQL LAST() 函数
+LAST() 函数返回指定的列中最后一个记录的值。
+
+MySQL 语法
+```
+SELECT column_name FROM table_name
+ORDER BY column_name DESC
+LIMIT 1;
+```
+实例
+```
+SELECT name FROM websites
+ORDER BY name DESC
+LIMIT 1
+```
+![](img/89.png)
+
+# MAX() 函数
+MAX() 函数返回指定列的最大值。
+
+## MAX() 函数返回指定列的最大值。
+```
+SELECT MAX (column_name) FROM table_name
+```
+
+## SQL MAX() 实例
+下面的 SQL 语句从 "Websites" 表的 "alexa" 列获取最大值：
+```
+SELECT MAX(alexa) FROM websites
+```
+![](img/90.png)
+
+# MIN() 函数
+MIN() 函数返回指定列的最小值。
+
+## MIN() 语法
+```
+SELECT MIN(column_name) FROM table_name
+```
+
+## MIN() 语法
+下面的 SQL 语句从 "Websites" 表的 "alexa" 列获取最小值：
+```
+SELECT MIN(alexa) FROM websites
+```
+![](img/91.png)
+
+# SUM() 函数
+
+SUM() 函数返回数值列的总数。
+
+## SQL SUM() 语法
+```
+SELECT SUM(column_name) FROM table_name
+```
+
+## 实例：
+```
+SELECT SUM(count) FROM access_log
+```
+![](img/92.png)
+
+
+# SQL GROUP BY 语句
+GROUP BY 语句可结合一些聚合函数来使用
+GROUP BY 语句用于结合聚合函数，根据一个或多个列对结果集进行分组。
+
+## SQL GROUP BY 语法
+```
+SELECT column_name ,aggretate_function(column_name)
+FROM  table_name
+WHERE column_name poerator value
+GROUP BY column
+```
+
+## GROUP BY 简单应用
+统计 access_log 各个 site_id 的访问量：
+
+实例：
+```
+SELECT site_id, SUM(count) AS nums
+FROM access_log 
+GROUP BY site_id
+```
+![](img/93.png)
+
+## SQL GROUP BY 多表连接
+实例：
+```
+SELECT websites.name,count(access_log.aid) 
+AS nums
+FROM access_log 
+LEFT JOIN websites
+ON access_log.site_id=websites.id
+GROUP BY websites.name
+```
+![](img/94.png)
+
+# SQL HAVING 子句
+在 SQL 中增加 HAVING 子句原因是，WHERE 关键字无法与聚合函数一起使用。
+
+HAVING 子句可以让我们筛选分组后的各组数据。
+## SQL HAVING 语法
+```
+SELECT column_name, aggregate_function(column_name)
+FROM table_name
+WHERE column_name operator value
+GROUP BY column_name
+HAVING aggregate_function(column_name) operator value;
+```
+
+## 演示数据库
+![](img/95.png)
+![](img/96.png)
+
+## SQL HAVING 实例
+现在我们想要查找总访问量大于 200 的网站。
+
+我们使用下面的 SQL 语句：
+```
+```
+![](img/97.png)
+现在我们想要查找总访问量大于 200 的网站，并且 alexa 排名小于 200。
+
+我们在 SQL 语句中增加一个普通的 WHERE 子句：
+```
+```
+![](img/98.png)
