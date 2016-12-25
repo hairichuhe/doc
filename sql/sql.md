@@ -1979,5 +1979,174 @@ HAVING SUM(access_log.count) > 200
 
 我们在 SQL 语句中增加一个普通的 WHERE 子句：
 ```
+SELECT websites.name,SUM(access_log.count) AS nums
+FROM websites 
+INNER JOIN access_log
+ON websites.id=access_log.site_id
+WHERE websites.alexa<200
+GROUP BY websites.name
+HAVING SUM(access_log.count)>200;
 ```
 ![](img/98.png)
+
+# UCASE() 函数
+UCASE() 函数把字段的值转换为大写。
+
+## SQL UCASE() 语法
+```
+SELECT UCASE(column_name) FROM table_name;
+```
+
+## SQL UCASE() 实例
+下面的 SQL 语句从 "Websites" 表中选取 "name" 和 "url" 列，并把 "name" 列的值转换为大写：
+
+```
+SELECT UCASE(name) AS site_title,url
+FROM websites;
+```
+![](img/99.png)
+
+# LCASE() 函数
+LCASE() 函数把字段的值转换为小写。
+## SQL LCASE() 语法
+```
+SELECT LCASE(column_name) FROM table_name
+```
+
+## SQL LCASE() 实例
+下面的 SQL 语句从 "Websites" 表中选取 "name" 和 "url" 列，并把 "name" 列的值转换为小写：
+```
+SELECT LCASE(name) AS site_title,url FROM websites;
+```
+![](img/100.png)
+
+# SQL MID() 函数
+MID() 函数用于从文本字段中提取字符。
+
+## SQL MID() 语法
+```
+SELECT MID(column_name,start[,length]) FORM table_name;
+```
+
+参数	  描述
+column_name	必需。要提取字符的字段。
+start	必需。规定开始位置（起始值是 1）。
+length	可选。要返回的字符数。如果省略，则 MID() 函数返回剩余文本。
+
+## SQL MID() 实例
+下面的 SQL 语句从 "Websites" 表的 "name" 列中提取前 4 个字符：
+```
+SELECT MID(name,1,4) AS shortTitle FROM websites
+```
+![](img/101.png)
+
+# LEN() 函数
+LEN() 函数返回文本字段中值的长度。
+
+## SQL LEN() 语法
+```
+SELECT LEN(column_name) FROM table_name
+```
+
+** MySQL 中函数为 LENGTH():**
+```
+SELECT LENGTH(column_name) FORM table_name;
+```
+
+## SQL LEN() 实例
+下面的 SQL 语句从 "Websites" 表中选取 "name" 和 "url" 列中值的长度：
+```
+SELECT name,LENGTH(url) AS urlLength FROM websites
+```
+![](img/102.png)
+
+# ROUND() 函数
+ROUND() 函数用于把数值字段舍入为指定的小数位数。
+
+## SQL ROUND() 语法
+```
+SELECT ROUND(column_name,decimals) FROM table_name
+```
+
+
+参数	描述
+column_name	必需。要舍入的字段。
+decimals	必需。规定要返回的小数位数。
+
+## SQL ROUND() 实例
+
+ROUND(X)： 返回参数X的四舍五入的一个整数。
+```
+SELECT ROUND(-1.44) AS round
+UNION ALL
+SELECT ROUND(-1.58)
+UNION ALL
+SELECT ROUND(1.58)
+```
+![](img/103.png)
+
+ROUND(X,D)： 返回参数X的四舍五入的有D为小数的一个数字。如果D为0，结果将没有小数点或小数部分。
+```
+SELECT ROUND(1.298,1) AS ROUd
+UNION ALL
+SELECT ROUND(1.298,0)
+```
+![](img/104.png)
+
+# NOW() 函数
+NOW() 函数返回当前系统的日期和时间。
+
+## SQL NOW() 语法
+```
+SELECT NOW() FROM table_name
+```
+
+## SQL NOW() 实例
+下面的 SQL 语句从 "Websites" 表中选取 name，url，及当天日期：
+```
+SELECT name ,url ,NOW() AS date
+FROM websites
+```
+![](img/105.png)
+
+# FORMAT() 函数
+FORMAT() 函数用于对字段的显示进行格式化。
+
+## SQL FORMAT() 语法
+```
+SELECT FORMAT(column,format) FROM table_name;
+```
+参数	描述
+column_name	必需。要格式化的字段。
+format	必需。规定格式。
+
+## SQL FORMAT() 实例
+下面的 SQL 语句从 "Websites" 表中选取 name, url 以及格式化为 YYYY-MM-DD 的日期：
+```
+SELECT name,url,DATE_FORMAT(NOW(),'%Y-%m-%d') AS date
+FROM websites
+```
+![](img/106.png)
+
+# SQL 快速参考
+![](img/107.png)
+
+# SQL 主机
+如果您想要您的网站存储数据在数据库并从数据库显示数据，您的 Web 服务器必须能使用 SQL 语言访问数据库系统。
+如果您的 Web 服务器托管在互联网服务提供商（ISP，全称 Internet Service Provider），您必须寻找 SQL 主机计划。
+最常见的 SQL 主机数据库是 MySQL、MS SQL Server 和 MS Access。
+您可以在 Windows 和 Linux/UNIX 操作系统上运行 SQL 主机数据库。
+下面是操作系统上对应运行的数据库系统的概览。
+## MS SQL Server
+在 Windows 和 Linux 操作系统上运行。
+## MySQL
+在 Windows, Mac OS X 和 Linux/UNIX 操作系统上运行。
+## MS Access（只建议用于小型网站）
+只在 Windows OS 上运行。
+
+## SQL 总结
+本 SQL 教程已经向您讲解了用来访问和处理数据库系统的标准计算机语言。
+我们已经学习了如何使用 SQL 在数据库中执行查询、获取数据、插入新的记录、删除记录以及更新记录。
+我们已经学习了如何通过 SQL 创建数据库、表、索引，以及如何撤销它们。
+我们已经学习了 SQL 中最重要的 Aggregate 函数。
+SQL 是一种与数据库系统协同工作的标准语言，这些数据库系统包括 MS SQL Server、IBM DB2、Oracle、MySQL 和 MS Access 等等。
