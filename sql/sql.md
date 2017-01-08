@@ -1,4 +1,5 @@
 # SQL简介
+** 电脑没装mysql和Navicat Premium的同学，可以先访问mysql和Navicat Premium安装教程  [点击此处访问](http://www.wangxiaojun.top/mysqlinstall/mysqlinstall.html) **
 	SQL 是用于访问和处理数据库的标准的计算机语言。
     SQL，指结构化查询语言，全称是 Structured Query Language。
     SQL 让您可以访问和处理数据库。
