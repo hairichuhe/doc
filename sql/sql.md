@@ -27,6 +27,12 @@
 [websites](file/websites.sql)
 [access_log](file/access_log.sql)
 [apps](file/apps.sql)
+
+### sql文件导入操作
+选定要导入的数据库，然后右键，点击运行sql文件。
+![](img/108.png)
+导入完成后刷新数据库或者关闭再打开
+
 ## 在您的网站中使用 SQL
 1.数据库
 2.SQL（入库）
