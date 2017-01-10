@@ -1,0 +1,27 @@
+npm常用命令清单：
+npm -v     					#查看版本
+npm install npm -g  		#npm升级到最新版本
+npm install <Module Name>    #安装模块
+npm install express          # 本地安装
+npm install express -g   	# 全局安装
+npm ls -g 					#查看全局安装的模块
+npm uninstall express 		#卸载模块
+npm search express 			#搜索模块
+npm init 					#创建模块 生成package.json
+npm publish 				#发布模块
+npm help					#可查看所有命令
+npm help <command>			#可查看某条命令的详细帮助-
+npm install   				#安装package.json中的依赖
+npm update <package>		#把当前目录下node_modules子目录里边的对应模块更新至最新版本
+
+Package.json 属性说明
+name - 包名。
+version - 包的版本号。
+description - 包的描述。
+homepage - 包的官网 url 。
+author - 包的作者姓名。
+contributors - 包的其他贡献者姓名。
+dependencies - 依赖包列表。如果依赖包没有安装，npm 会自动将依赖包安装在 node_module 目录下。
+repository - 包代码存放的地方的类型，可以是 git 或 svn，git 可在 Github 上。
+main - main 字段是一个模块ID，它是一个指向你程序的主要项目。就是说，如果你包的名字叫 express，然后用户安装它，然后require("express")。
+keywords - 关键字
